@@ -20,7 +20,7 @@ import lt.vtvpmc.ems.akademijaIT.jk.shop.customer.CustomerRepository;
 public class CustomerRepositoryTest {
 
 	@Autowired
-	CustomerRepository repository;
+	CustomerRepository custRepo;
 
 	@Test
 	public void test() {
@@ -33,29 +33,32 @@ public class CustomerRepositoryTest {
 		customer.setLastName(lastName);
 		customer.setEmail(email);
 
-		repository.save(customer);
-		Customer dbCustomer = repository.findOne(customer.getId());
+		custRepo.save(customer);
+		Customer dbCustomer = custRepo.findOne(customer.getId());
 		System.out.println(dbCustomer.toString());
+
 		assertNotNull(dbCustomer);
 		assertEquals(firstName, dbCustomer.getFirstName());
 
 	}
+
 	@Test
 	public void insertTest() {
 		Customer customer = new Customer();
-		final String firstName = "Vardenis";
+		final String firstName = "Vardenis 2";
 		Cart cart = new Cart();
 		customer.setCart(cart);
 		customer.setFirstName(firstName);
 
-		repository.save(customer);
-		Customer dbCustomer = repository.findOne(customer.getId());
+		Customer bla = custRepo.save(customer);
+		System.out.println(bla.getCart().getId());
+		
+		Customer dbCustomer = custRepo.findOne(customer.getId());
+
 		assertNotNull(dbCustomer);
 		assertNotNull(dbCustomer.getCart());
-		System.out.println(dbCustomer.getId());
-		System.out.println(cart.getCartOwnerId());
+		System.out.println(dbCustomer.toString());
 		System.out.println(cart.getId());
-		System.out.println(dbCustomer.getCart());
-		
+
 	}
 }

@@ -1,19 +1,44 @@
 package lt.vtvpmc.ems.akademijaIT.jk.shop.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
+import lt.vtvpmc.ems.akademijaIT.jk.shop.cart.Cart;
+
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Product_Type")
-public abstract class Product {
+public class Product {
 	@Id
 	@GeneratedValue
-	@Column(name="product_id")
+	@Column(name = "product_id")
 	private Integer id;
 	private String name;
 	private String description;
+	private String imageUrl;
 	private Double price;
 	private Integer quantity;
+	@ManyToOne
+	private ProductType type; 
+
+	public ProductType getType() {
+		return type;
+	}
+
+	public void setType(ProductType type) {
+		this.type = type;
+	}
+
+	@ManyToMany(mappedBy = "products")
+	private List<Cart> carts = new ArrayList<>();
+
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
 
 	public Product() {
 		super();
@@ -41,6 +66,14 @@ public abstract class Product {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Double getPrice() {

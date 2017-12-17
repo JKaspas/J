@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.vtvpmc.ems.akademijaIT.jk.shop.product.Product;
-import lt.vtvpmc.ems.akademijaIT.jk.shop.product.ProductPhone;
 import lt.vtvpmc.ems.akademijaIT.jk.shop.product.ProductRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,7 +23,7 @@ public class ProductRepositoryTest {
 
 	@Test
 	public void insertTest() {
-		Product	product = new ProductPhone();
+		Product product = new Product();
 		final String name="Product name";
 		final String description="Description of a product";
 		final Double price=2.20d;
@@ -34,7 +33,7 @@ public class ProductRepositoryTest {
 		product.setName(name);
 		product.setPrice(price);
 		product.setQuantity(quantity);
-	
+		
 		repository.save(product);
 		Product dbProduct = repository.findOne(product.getId());
 		System.out.println(dbProduct.toString());

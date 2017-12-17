@@ -1,19 +1,27 @@
 package lt.vtvpmc.ems.akademijaIT.jk.shop.cart;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lt.vtvpmc.ems.akademijaIT.jk.shop.product.Product;
 
 @Entity
 public class Cart {
 
 	@Id
-	@GeneratedValue
-	@Column(name="cart_id")
+	@GenericGenerator(name = "genCust", strategy = "increment")
+	@GeneratedValue(generator = "genCust")
+	@Column(name = "cart_id")
 	private Integer id;
-	private Integer ownerId;
-	
-//  @OneToMany
-//	@JoinColumn(name="product_id")
-//	private List<Product> products = new ArrayList<Product>();
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "PC", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "cart_id"), inverseJoinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "product_id"))
+	@JsonIgnore
+	public List<Product> products = new ArrayList<>();
 
 	public Cart() {
 		super();
@@ -27,19 +35,16 @@ public class Cart {
 		this.id = id;
 	}
 
-	public Integer getCartOwnerId() {
-		return ownerId;
+	public List<Product> getProducts() {
+		return products;
 	}
 
-	public void setCartOwnerId(Integer cartOwnerId) {
-		this.ownerId = cartOwnerId;
+	public void addProduct(Product product) {
+		this.products.add(product);
 	}
 
-//	public List<Product> getProducts() {
-//		return products;
-//	}
-//
-//	public void setProducts(List<Product> products) {
-//		this.products = products;
-//	}
+	public void removeProduct(Product product) {
+		this.products.remove(product);
+	}
+
 }
